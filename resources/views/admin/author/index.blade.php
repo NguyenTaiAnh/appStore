@@ -16,8 +16,7 @@
                     url: '{{route('author.dataTable')}}',
                     data: function (d) {
                         d.keyword = $('#keyword').val()
-                        console.log("check d: ", d)
-                        // d.status = $('#status').val()
+                        d.status = $('#status').val()
                     }
                 },
                 columns: [
@@ -73,6 +72,13 @@
                 @if(Session::has('error_msg'))
                     <p class="alert alert-danger">{{ Session::get('error_msg') }}</p>
                 @endif
+                <div class="table-responsive" id="example1_length" style="margin: 20px">
+
+                        <a href="" data-toggle="modal" data-target="#myModal" class="btn-create btn btn-success align-center" style="padding: 4px 10px;">
+                            <i class="fa fa-charging-station"></i>
+                            Add
+                        </a>
+                </div>
                 <div class="table-responsive">
                     <table style="width: 100%;" class="data-table table table-bordered table-hover" id="author">
                         <thead>

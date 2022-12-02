@@ -4,7 +4,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="{{ route('dashboard') }}" class="brand-link">
       <img src="{{asset('admin-assets/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Admin Panel</span>
     </a>
@@ -73,6 +73,45 @@
                   </p>
               </a>
           </li>
+            <li class="nav-item">
+              <a href="{{route('categories.index')}}" class="nav-link {{$current_route=='categories.index'?'active':''}}">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                      Categories
+                  </p>
+              </a>
+          </li>
+            <li class="nav-item">
+              <a href="{{route('levels.index')}}" class="nav-link {{$current_route=='levels.index'?'active':''}}">
+                  <i class="nav-icon fa fa-angle-double-up"></i>
+                  <p>
+                      Levels
+                  </p>
+              </a>
+          </li>
+            <li class="nav-item {{$current_route=='stories.index'?'menu-open':''}}">
+                <a href="#" class="nav-link {{$current_route=='stories.index'?'active':''}}">
+                    <i class="nav-icon fa fa-book"></i>
+                    <p>
+                        Stories Management
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{route('stories.index')}}" class="nav-link {{$current_route=='stories.index'?'active':''}}">
+                            <i class="far fa-circle"></i>
+                            <p>Story</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('stories.create')}}" class="nav-link {{$current_route=='stories.create'?'active':''}}">
+                            <i class="far fa-circle"></i>
+                            <p>Create Story</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

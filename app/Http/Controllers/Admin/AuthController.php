@@ -4,11 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     public function getLogin(){
+        if(Auth::check() === true){
+            \auth()->logout();
+        }
         return view('admin.auth.login');
     }
 

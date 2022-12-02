@@ -79,5 +79,12 @@ class RepositoryProvider extends ServiceProvider
                 return $repository;
             }
         );
+        $this->app->bind(
+            'App\Repositories\LevelRepository',
+            function () {
+                $repository = new \App\Repositories\Eloquent\EloquentLevelRepository(new \App\Models\Levels());
+                return $repository;
+            }
+        );
     }
 }

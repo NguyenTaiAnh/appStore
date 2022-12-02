@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('another_name')->nullable();
             $table->string('description')->nullable();
             $table->string('image')->nullable();
-            $table->integer('category_id')->unsigned();
-            $table->integer('author_id')->unsigned();
-            $table->integer('comment_id')->unsigned()->nullable();
+            $table->string('category_id');
+            $table->string('author_id');
+            $table->string('comment_id')->nullable();
             $table->integer('rate')->default(0);
             $table->string('status')->nullable();
             $table->string('vew_follow')->default(0);

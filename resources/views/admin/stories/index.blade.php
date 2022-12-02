@@ -13,34 +13,26 @@
                 sort: false,
                 searching: true,
                 ajax: {
-                    url: '{{route('categories.dataTable')}}',
+                    url: '{{route('stories.dataTable')}}',
                     data: function (d) {
                         d.keyword = $('#keyword').val()
                         d.status = $('#status').val()
                     }
                 },
                 columns: [
+                    {data:'image', searchable: false},
                     {data:'name', searchable:true},
+                    {data:'another_name', searchable: true},
                     {data:'description', searchable: false},
+                    {data:'category', searchable: false},
+                    // {data:'author', searchable: false},
+                    {data:'rate', searchable: false},
+                    {data:'status', searchable: false},
                     {data:'created_at', searchable:false},
                     {data:'updated_at', searchable:false},
                     {data:'action', searchable:false},
                 ]
             })
-            $(document).on('click', '.category-edit', function () {
-                let id = $(this).attr('data-id');
-                $.ajax({
-                    method: 'get',
-                    url: '/admin/categories/show/' + id,
-                    success:function (data, statusTxt, xhr) {
-                        if (xhr.status === 200) {
-                            $('.p-id').val(data.id)
-                            $('.p-name').val(data.name)
-                            $('.p-description').val(data.description)
-                        }
-                    }
-                })
-            });
         });
     </script>
 @stop
@@ -76,7 +68,7 @@
                 @endif
                 <div class="table-responsive" id="example1_length" style="margin: 20px">
 
-                        <a href="" data-toggle="modal" data-target="#myModal" class="btn-create btn btn-success align-center" style="padding: 4px 10px;">
+                        <a href="{{ route('stories.create') }}" class="btn-create btn btn-success align-center" style="padding: 4px 10px;">
                             <i class="fa fa-plus"></i>
                             Add
                         </a>
@@ -85,8 +77,13 @@
                     <table style="width: 100%;" class="data-table table table-bordered table-hover" id="category">
                         <thead>
                         <tr>
+                            <th>Image</th>
                             <th>Name</th>
+                            <th>Another Name</th>
                             <th>Description</th>
+                            <th>Categories</th>
+                            <th>Rate</th>
+                            <th>Status</th>
                             <th>Created</th>
                             <th>Updated</th>
                             <th>Action</th>
@@ -101,6 +98,4 @@
 
     </div>
     <!-- /.row (main row) -->
-    @include('admin.categories._create')
-    @include('admin.categories._update')
 @endsection

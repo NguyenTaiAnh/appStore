@@ -9,6 +9,6 @@ class Levels extends Model
 {
     use HasFactory;
     protected $table='levels';
-    protected $fillable=['name','user_id'];
+    protected $fillable=['name','exp'];
 
 }

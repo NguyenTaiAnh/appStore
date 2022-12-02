@@ -13,7 +13,7 @@ class StoriesRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,14 @@ class StoriesRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name'=>'required',
+            'another_name'=>'required',
+            'image'=>'required',
+            'status'=>'required',
+            'start_date'=>'required',
+            'author_id'=>'required',
+            'category_id'=>'required',
+            'description'=>'required'
         ];
     }
 }

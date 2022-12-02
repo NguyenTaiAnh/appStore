@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('levels', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->integer('exp');
-            $table->timestamps();
+        Schema::table('chapters', function (Blueprint $table) {
+            $table->string('file_content')->nullable()->after('content');
         });
     }
 
@@ -28,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('levels');
+        Schema::table('chapters', function (Blueprint $table) {
+            $table->dropColumn('file_content');
+        });
     }
 };

@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('levels', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->integer('exp');
-            $table->timestamps();
+        Schema::table('stories', function (Blueprint $table) {
+            $table->dateTime('start_date')->nullable()->after('status');
         });
     }
 
@@ -28,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('levels');
+        Schema::table('stories', function (Blueprint $table) {
+            $table->dropColumn('start_date');
+        });
     }
 };

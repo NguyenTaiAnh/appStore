@@ -40,10 +40,10 @@ class AuthorController extends Controller
                 return $author->name;
             })
             ->editColumn('created_at', function ($user) {
-                return date('Y-m-d H:i:s', strtotime($user->created_at) + env('TIMEZONE_VALUE', '+7') * 3600);
+                return date('Y-m-d H:i:s', strtotime($user->created_at));
             })
             ->editColumn('updated_at', function ($user) {
-                return date('Y-m-d H:i:s', strtotime($user->updated_at) + env('TIMEZONE_VALUE', '+7') * 3600);
+                return date('Y-m-d H:i:s', strtotime($user->updated_at));
             })
             ->addColumn('action',function($author){
                 return '<div class="btn-group action">
@@ -61,6 +61,11 @@ class AuthorController extends Controller
     }
 
     public function store(AuthorRequest $request){
+        $author = Author::where('name', $request->name)->first();
+        if($author){
+            session()->flash('error_msg', 'Already exist');
+            return back();
+        }
         if ($this->authorRepository->create($request->all())) {
             session()->flash('success_msg', 'Create author successfully');
         } else {
@@ -71,6 +76,11 @@ class AuthorController extends Controller
     }
 
     public function update(AuthorRequest $request) {
+        $author = Author::where('name', $request->name)->first();
+        if($author){
+            session()->flash('error_msg', 'Already exist');
+            return back();
+        }
         $author_id = $request->input('author_id');
         if ($this->authorRepository->updateData($author_id, $request->all())) {
             session()->flash('success_msg', 'Update author successfully');

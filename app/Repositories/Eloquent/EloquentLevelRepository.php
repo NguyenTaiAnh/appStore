@@ -1,11 +1,11 @@
 <?php
 namespace App\Repositories\Eloquent;
 
-use App\Repositories\CategoryRepository;
+use App\Repositories\LevelRepository;
 
-class EloquentCategoryRepository extends EloquentBaseRepository implements CategoryRepository
+class EloquentLevelRepository extends EloquentBaseRepository implements LevelRepository
 {
-    public function getCategories()
+    public function getLevels()
     {
         // TODO: Implement getCategories() method.
         return $this->model->select('*');
