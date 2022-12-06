@@ -59,7 +59,7 @@ Route::middleware([AdminAuth::class])->group(function () {
         Route::get('/dataTable',[StoriesController::class,'datatable'])->name('stories.dataTable');
         Route::get('/create',[StoriesController::class,'create'])->name('stories.create');
         Route::post('/store', [StoriesController::class,'store'])->name('stories.store');
-        Route::post('/update', [StoriesController::class,'update'])->name('stories.update');
+        Route::get('/edit/{id}', [StoriesController::class,'edit'])->name('stories.edit');
         Route::post('/update', [StoriesController::class,'update'])->name('stories.update');
         Route::post('/destroy/{id}', [StoriesController::class,'destroy'])->name('stories.destroy');
         Route::get('/show/{id}', [StoriesController::class,'show'])->name('stories.show');

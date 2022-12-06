@@ -3,13 +3,6 @@
     <link media="all" type="text/css" rel="stylesheet" href="/vendor/css/multi-upload-file.css">
 {{--    <link rel="stylesheet" href="/vendor/css/star.css">--}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
-    <style>
-        .checkbox-wrapper{
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(2, 1fr);
-        }
-    </style>
 {{--    <link rel="stylesheet" href="/vendor/plugins/amazeui-datetimepicker/css/amazeui.datetimepicker.css">--}}
 @endsection
 @section('extra_js')

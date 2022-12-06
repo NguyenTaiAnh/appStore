@@ -24,8 +24,8 @@
                     {data:'name', searchable:true},
                     {data:'another_name', searchable: true},
                     {data:'description', searchable: false},
+                    {data:'author', searchable: false},
                     {data:'category', searchable: false},
-                    // {data:'author', searchable: false},
                     {data:'rate', searchable: false},
                     {data:'status', searchable: false},
                     {data:'created_at', searchable:false},
@@ -81,6 +81,7 @@
                             <th>Name</th>
                             <th>Another Name</th>
                             <th>Description</th>
+                            <th>Authors</th>
                             <th>Categories</th>
                             <th>Rate</th>
                             <th>Status</th>

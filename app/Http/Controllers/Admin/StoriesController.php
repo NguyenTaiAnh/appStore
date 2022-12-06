@@ -6,6 +6,8 @@ use App\Http\Requests\StoriesRequest;
 use App\Models\Author;
 use App\Models\Categories;
 use App\Models\Stories;
+use App\Repositories\AuthorRepository;
+use App\Repositories\CategoryRepository;
 use App\Repositories\StoryRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -23,10 +25,22 @@ class StoriesController extends Controller
      */
     private $storyRepository;
 
-    public function __construct(DataTables $dataTable, StoryRepository $storyRepository)
+    /**
+     * @var AuthorRepository
+     */
+    private $authorRepository;
+
+    /**
+     * @var CategoryRepository
+     */
+    private $categoryRepository;
+
+    public function __construct(DataTables $dataTable, StoryRepository $storyRepository, AuthorRepository $authorRepository, CategoryRepository $categoryRepository)
     {
         $this->dataTable = $dataTable;
         $this->storyRepository = $storyRepository;
+        $this->categoryRepository = $categoryRepository;
+        $this->authorRepository = $authorRepository;
     }
 
     public function index(){
@@ -58,10 +72,13 @@ class StoriesController extends Controller
                         return 'error';
                 };
             })
+            ->editColumn('author',function ($story){
+                $author = $this->storyRepository->getAuthorById($story->category_id);
+                return $author;
+            })
             ->editColumn('category',function ($story){
                 $categories = $this->storyRepository->getStoryById($story->category_id);
-                dd($categories);
-//                return Stories::categoryName($story->category_id);
+                return $categories;
             })
             ->editColumn('created_at', function ($story) {
                 return date('Y-m-d H:i:s', strtotime($story->created_at));
@@ -71,6 +88,9 @@ class StoriesController extends Controller
             })
             ->addColumn('action',function($story){
                 return '<div class="btn-group action">
+                        <a style="margin-right:5px" class="btn btn-primary btn-sm"
+                        href="'. route('stories.edit', $story->id).'">'. 'Edit' . '
+                        </a>
                     <form action="' . route('stories.destroy', ['id' => $story->id]) . '"
                     method="POST" onsubmit="return confirm(' . "'" . 'Are You Sure' . "'" . ');"
                     style="display: inline-block;">
@@ -143,7 +163,9 @@ class StoriesController extends Controller
     public function edit($id)
     {
         $story = $this->storyRepository->find($id);
-        return view('admin.stories.update',compact('story'));
+        $categories = Categories::all();
+        $authors = Author::all();
+        return view('admin.stories.update',compact('story', 'categories', 'authors'));
     }
 
     /**
