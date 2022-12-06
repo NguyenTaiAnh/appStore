@@ -1,3 +1,15 @@
+
+## Setup Project Laravel Docker Sail
+b1: install docker
+b2: run terminal:  docker run --rm --interactive --tty -v $(pwd):/app composer install
+b3: clone env 
+b4: edit DB_HOST=127.0.0.1 to DB_HOST=mysql
+b5: run terminal in php artisan key:generate
+b5: run terminal in docker php artisan migrate
+b6: run terminal in php artisan db:seed --class= ....
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
