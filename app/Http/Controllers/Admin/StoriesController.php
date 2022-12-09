@@ -51,10 +51,8 @@ class StoriesController extends Controller
         $stories = $this->storyRepository->getStories($request);
         return $this->dataTable->eloquent($stories)
             ->editColumn('image', function ($story){
-//                return '<img src="./public/assets/images/'.$story->image.'" height="100px" >';
                 $url = asset("/assets/images/$story->image");
                 return "<img src='$url' height='100px'>";
-
             })
             ->editColumn('status', function ($story){
                 switch ($story->status){
@@ -175,9 +173,31 @@ class StoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoriesRequest $request, $id)
     {
-        //
+        $story = $this->storyRepository->find($id);
+        if($story->image){
+            $request['image'] = $story->image;
+        }
+        if ($request->hasFile('image')) {
+            dd($request->file('image'));
+//            $image = $request->file('image');
+//            $name = time() . '.' . $image->getClientOriginalExtension();
+            // Thư mục upload
+
+
+//            $data['image'] = $name;
+
+//            $data['author_id']=json_encode($data['author_id'], true);
+//            $data['category_id']=json_encode($data['category_id'], true);
+//            $this->storyRepository->create($data);
+//            Session::flash('success_msg', 'Successfully Saved');
+
+            // Bắt đầu chuyển file vào thư mục
+//            $path = public_path() . '/assets/images/';
+//            $image->move($path, $name);
+        }
+        dd($request);
     }
 
     /**

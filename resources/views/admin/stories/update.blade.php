@@ -23,8 +23,13 @@
                 }
             });
             // $('#start-date').datetimepicker();
+
         });
         function readURL(input) {
+            console.log(`{{$story->image}}`)
+            if(`{{$story->image}}`) {
+
+            }
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
 
@@ -79,7 +84,7 @@
                                         @endforeach
                                     </p>
                                 @endif
-                                <form role="form" method="post" action="{{route('stories.store')}}" enctype="multipart/form-data">
+                                <form role="form" method="post" action="{{route('stories.update', $story->id)}}" enctype="multipart/form-data">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                                     <div class="form-group">
                                         <label>Name</label>
@@ -95,8 +100,9 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label ">Image</label><span class="required" style="color: red;" aria-required="true"> * </span>
-                                        <input type="file" name="image" class="form-control" value="{{ $story->image ? $story->image : '' }}" onchange="readURL(this);" required>
-                                        <img id="image" src="{{ $story->image ? asset("/assets/images/$story->image") : '' }}" alt="story image" class="form-control" style="width: 200px; height: 200px" />
+{{--                                        <input type="file"value="{{ $story->image ? asset("/assets/images/$story->image") : '' }}" name="image" class="form-control @error('image') is-invalid @enderror" onchange="readURL(this);" >--}}
+                                        <img id="image" value="{{ $story->image ? $story->image : '' }}" src="{{ $story->image ? asset("/assets/images/$story->image") : '' }}" alt="story image" class="form-control" style="width: 200px; height: 200px" />
+                                        <input type="text" value="{{ $story->image ? $story->image : '' }}" hidden>
                                         {!! $errors->first('image', '<span class="help-block">:message</span>') !!}
                                     </div>
                                     <div class="form-group">
