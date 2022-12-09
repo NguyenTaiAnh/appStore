@@ -10,6 +10,7 @@ use App\Repositories\AuthorRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\StoryRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
 
@@ -179,24 +180,6 @@ class StoriesController extends Controller
         if($story->image){
             $request['image'] = $story->image;
         }
-        if ($request->hasFile('image')) {
-            dd($request->file('image'));
-//            $image = $request->file('image');
-//            $name = time() . '.' . $image->getClientOriginalExtension();
-            // Thư mục upload
-
-
-//            $data['image'] = $name;
-
-//            $data['author_id']=json_encode($data['author_id'], true);
-//            $data['category_id']=json_encode($data['category_id'], true);
-//            $this->storyRepository->create($data);
-//            Session::flash('success_msg', 'Successfully Saved');
-
-            // Bắt đầu chuyển file vào thư mục
-//            $path = public_path() . '/assets/images/';
-//            $image->move($path, $name);
-        }
         dd($request);
     }
 
@@ -215,5 +198,17 @@ class StoriesController extends Controller
             session()->flash('success_msg', 'Delete story failed');
         }
         return back();
+    }
+
+    public function delImage($id){
+        $story = $this->storyRepository->find($id);
+        $path = public_path() . '/assets/images/'. $story->image;
+
+        if(File::exists($path)) {
+            File::delete($path);
+            $story->image = null;
+            $story->save();
+            session()->flash('success_msg', 'Delete image successfully');
+        }
     }
 }

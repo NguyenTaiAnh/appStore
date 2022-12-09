@@ -22,25 +22,57 @@
                     'X-CSRF-TOKEN': '{{csrf_token()}}'
                 }
             });
+            console.log(`{{$story->image}}` )
+            if(`{{$story->image}}` === '' ){
+                $( "#upload-image" ).removeClass( "d-none" )
+            }
+            readURL(`{{$story->image}}`)
             // $('#start-date').datetimepicker();
 
         });
         function readURL(input) {
-            console.log(`{{$story->image}}`)
-            if(`{{$story->image}}`) {
-
+            console.log('check ', input)
+            if(input === `{{$story->image}}`){
+                
             }
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
 
                 reader.onload = function (e) {
-                    $('#image').attr('src', e.target.result);
+                    $('#image').removeClass('d-none').attr('src', e.target.result).width(200).height(200);
                 };
 
                 reader.readAsDataURL(input.files[0]);
             }
         }
-
+        $(".btn-delete-image").on('click',function(e) {
+            e.preventDefault();
+            const idStory = $(this).attr('data-image');
+            var confirmation = confirm("Are you sure you want to delete image?");
+            if (confirmation) {
+                $.ajax({
+                    type:'GET',
+                    url:'/admin/stories/deleteImage/' + idStory,
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    // data:{user_id: userId},
+                    success:function(data){
+                        //Refresh the grid
+                        console.log($(".data-image"))
+                        $(".data-image").remove();
+                        $( "#upload-image" ).removeClass( "d-none" )
+                        $('#image').addClass("d-none")
+                        alert(data.success);
+                    },
+                    error: function(e){
+                        alert(e.error);
+                    }
+                });
+            }
+            else{
+                //alert ('no');
+                return false;
+            }
+        });
     </script>
 @stop
 @section('content-header')
@@ -99,10 +131,11 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+
                                         <label class="control-label ">Image</label><span class="required" style="color: red;" aria-required="true"> * </span>
-{{--                                        <input type="file"value="{{ $story->image ? asset("/assets/images/$story->image") : '' }}" name="image" class="form-control @error('image') is-invalid @enderror" onchange="readURL(this);" >--}}
-                                        <img id="image" value="{{ $story->image ? $story->image : '' }}" src="{{ $story->image ? asset("/assets/images/$story->image") : '' }}" alt="story image" class="form-control" style="width: 200px; height: 200px" />
-                                        <input type="text" value="{{ $story->image ? $story->image : '' }}" hidden>
+                                        <a href="#" data-image="{{$story->id}}" class="btn btn-xs btn-danger pull-right btn-delete-image">Delete Image</a>
+                                        <input type="file"value="#" name="image" id="upload-image" class="form-control d-none @error('image') is-invalid @enderror" onchange="readURL(this);" accept="image/x-png,image/gif,image/jpeg">
+                                        <img id="image" src="#" alt="story image" class="form-control" />
                                         {!! $errors->first('image', '<span class="help-block">:message</span>') !!}
                                     </div>
                                     <div class="form-group">
@@ -149,9 +182,7 @@
                                     <div class="form-group">
                                         <label>Description</label>
                                         <div class="form-group">
-                                            <textarea type="text" class="form-control" name="description" required >
-                                                {{ $story->description? $story->description : '' }}
-                                            </textarea>
+                                            <textarea type="text" class="form-control" name="description" required >{{ $story->description? $story->description : '' }}</textarea>
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-sm btn-primary">Save</button>

@@ -63,5 +63,6 @@ Route::middleware([AdminAuth::class])->group(function () {
         Route::post('/update/{id}', [StoriesController::class,'update'])->name('stories.update');
         Route::post('/destroy/{id}', [StoriesController::class,'destroy'])->name('stories.destroy');
         Route::get('/show/{id}', [StoriesController::class,'show'])->name('stories.show');
+        Route::get('/deleteImage/{id}',[StoriesController::class,'delImage'])->name('stories.delete.image');
     });
 });
