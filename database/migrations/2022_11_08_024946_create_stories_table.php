@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->string('image')->nullable();
             $table->string('category_id');
-            $table->string('author_id');
+            $table->integer('author_id')->unsigned()->nullable();
             $table->string('comment_id')->nullable();
             $table->integer('rate')->default(0);
             $table->string('status')->nullable();

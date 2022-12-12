@@ -23,13 +23,10 @@ class EloquentStoryRepository extends EloquentBaseRepository implements StoryRep
         return implode(', ', $arrData);
     }
 
-    public function getAuthorById($id){
-        $categories = Author::whereIn('id',json_decode( $id))->get();
-
-        $arrData = [];
-        foreach ($categories as $category){
-            $arrData[] = $category->name;
-        }
-        return implode(', ', $arrData);
+    public function updateData($id, $data)
+    {
+        // TODO: Implement updateData() method.
+        $author = $this->model->find($id);
+        return $author ? $author->update($data) : FALSE;
     }
 }

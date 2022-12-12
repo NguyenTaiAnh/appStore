@@ -26,23 +26,55 @@
             if(`{{$story->image}}` === '' ){
                 $( "#upload-image" ).removeClass( "d-none" )
             }
-            readURL(`{{$story->image}}`)
+
+            readURL('{{ $story->image }}')
             // $('#start-date').datetimepicker();
 
         });
+        //How to set a value to a file input in HTML?
+        //https://stackoverflow.com/questions/1696877/how-to-set-a-value-to-a-file-input-in-html/70485949#70485949
+        function loadURLToInputFiled(){
+            let url = '{{ asset('/asset/image/') }}'
+            console.log('{{ $story->image }}' !== '')
+            getImgURL(url, (imgBlob)=>{
+                // Load img blob to input
+                // WIP: UTF8 character error
+                let fileName = '{{ $story->image }}'
+                let file = new File([imgBlob], fileName,{type:"image/jpeg", lastModified:new Date().getTime()}, 'utf-8');
+                let container = new DataTransfer();
+                container.items.add(file);
+                document.querySelector('input[name="image"]').files = container.files;
+                $('#image').attr('src', '{{ asset('/assets/images/'. $story->image) }}').width(200).height(200);
+            })
+        }
+        // xmlHTTP return blob respond
+        function getImgURL(url, callback){
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function() {
+                callback(xhr.response);
+            };
+            xhr.open('GET', url);
+            xhr.responseType = 'blob';
+            xhr.send();
+        }
+        const getBase64StringFromDataURL = (dataURL) =>
+            dataURL.replace('data:', '').replace(/^.+,/, '');
         function readURL(input) {
-            console.log('check ', input)
-            if(input === `{{$story->image}}`){
-                
-            }
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
 
-                reader.onload = function (e) {
-                    $('#image').removeClass('d-none').attr('src', e.target.result).width(200).height(200);
-                };
+            console.log('check ', input === `{{$story->image}}`)
+            if( input !== '' && input === `{{$story->image}}`){
+                loadURLToInputFiled()
+            }else{
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
 
-                reader.readAsDataURL(input.files[0]);
+                    reader.onload = function (e) {
+                        console.log(e.target.result);
+                        $('#image').removeClass('d-none').attr('src', e.target.result).width(200).height(200);
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                }
             }
         }
         $(".btn-delete-image").on('click',function(e) {
@@ -59,9 +91,9 @@
                         //Refresh the grid
                         console.log($(".data-image"))
                         $(".data-image").remove();
-                        $( "#upload-image" ).removeClass( "d-none" )
+                        $( "#upload-image" ).removeClass( "d-none" ).val('')
                         $('#image').addClass("d-none")
-                        alert(data.success);
+                        alert('delete image successfully');
                     },
                     error: function(e){
                         alert(e.error);
@@ -153,19 +185,19 @@
                                         <label>Start Date</label><span class="required" style="color: red;" aria-required="true"> * </span>
                                         <input type="datetime-local" name="start_date" value="{{ $story->start_date ? $story->start_date : '' }}" class="form-control" required>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Author</label>
-                                        <div class="row">
-                                            @foreach($authors as $author)
-                                                <div class="checkbox-inline col-12 col-xs-12 col-sm-6 col-lg-4 col-xl-3">
-                                                    <input id="author{{$author->id}}" type="checkbox" value="{{$author->id}}" name="author_id[]"
-                                                    {{ in_array($author->id, json_decode($story->author_id)) ? 'checked' : ''  }}
-                                                    >
-                                                    <label for="author{{$author->id}}" style="font-weight: normal">{{$author->name}}</label>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
+{{--                                    <div class="form-group">--}}
+{{--                                        <label>Author</label>--}}
+{{--                                        <div class="row">--}}
+{{--                                            @foreach($authors as $author)--}}
+{{--                                                <div class="checkbox-inline col-12 col-xs-12 col-sm-6 col-lg-4 col-xl-3">--}}
+{{--                                                    <input id="author{{$author->id}}" type="checkbox" value="{{$author->id}}" name="author_id[]"--}}
+{{--                                                    {{ in_array($author->id, json_decode($story->author_id)) ? 'checked' : ''  }}--}}
+{{--                                                    >--}}
+{{--                                                    <label for="author{{$author->id}}" style="font-weight: normal">{{$author->name}}</label>--}}
+{{--                                                </div>--}}
+{{--                                            @endforeach--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
                                     <div class="form-group">
                                         <label>Categories</label>
                                         <div class="row">

@@ -71,10 +71,10 @@ class StoriesController extends Controller
                         return 'error';
                 };
             })
-            ->editColumn('author',function ($story){
-                $author = $this->storyRepository->getAuthorById($story->category_id);
-                return $author;
-            })
+//            ->editColumn('author',function ($story){
+//                $author = $this->storyRepository->getAuthorById($story->category_id);
+//                return $author;
+//            })
             ->editColumn('category',function ($story){
                 $categories = $this->storyRepository->getStoryById($story->category_id);
                 return $categories;
@@ -176,11 +176,26 @@ class StoriesController extends Controller
      */
     public function update(StoriesRequest $request, $id)
     {
-        $story = $this->storyRepository->find($id);
-        if($story->image){
-            $request['image'] = $story->image;
+//        $story = $this->storyRepository->find($id);
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $name = time() . '.' . $image->getClientOriginalExtension();
+            // Thư mục upload
+            $path = public_path() . '/assets/images/';
+
+            $data['image'] = $name;
+
+            $data['author_id']=json_encode($data['author_id'], true);
+            $data['category_id']=json_encode($data['category_id'], true);
+            $this->storyRepository->updateData($id,$data);
+            Session::flash('success_msg', 'Successfully Saved');
+
+            // Bắt đầu chuyển file vào thư mục
+            $image->move($path, $name);
+
         }
-        dd($request);
+        return back();
     }
 
     /**
