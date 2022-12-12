@@ -52,7 +52,7 @@ class StoriesController extends Controller
         $stories = $this->storyRepository->getStories($request);
         return $this->dataTable->eloquent($stories)
             ->editColumn('image', function ($story){
-                $url = asset("/assets/images/$story->image");
+                $url = asset("/assets/images/stories/$story->image");
                 return "<img src='$url' height='100px'>";
             })
             ->editColumn('status', function ($story){
@@ -127,7 +127,7 @@ class StoriesController extends Controller
             $image = $request->file('image');
             $name = time() . '.' . $image->getClientOriginalExtension();
             // Thư mục upload
-            $path = public_path() . '/assets/images/';
+            $path = public_path() . '/assets/images/stories';
 
             $data['image'] = $name;
             $data['category_id']=json_encode($data['category_id'], true);
@@ -192,7 +192,7 @@ class StoriesController extends Controller
                 $this->storyRepository->updateData($id,$data);
 
                 // Thư mục upload
-                $path = public_path() . '/assets/images/';
+                $path = public_path() . '/assets/images/stories';
                 // Bắt đầu chuyển file vào thư mục
                 $image->move($path, $name);
             }
@@ -222,7 +222,7 @@ class StoriesController extends Controller
 
     public function delImage($id){
         $story = $this->storyRepository->find($id);
-        $path = public_path() . '/assets/images/'. $story->image;
+        $path = public_path() . '/assets/images/stories/'. $story->image;
 
         if(File::exists($path)) {
             File::delete($path);

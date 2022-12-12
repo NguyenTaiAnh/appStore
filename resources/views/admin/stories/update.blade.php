@@ -38,7 +38,7 @@
         //How to set a value to a file input in HTML?
         //https://stackoverflow.com/questions/1696877/how-to-set-a-value-to-a-file-input-in-html/70485949#70485949
         function loadURLToInputFiled(){
-            let url = '{{ asset('/assets/images/') }}'
+            let url = '{{ asset('/assets/images/stories/') }}'
             console.log('{{ $story->image }}' !== '')
             getImgURL(url, (imgBlob)=>{
                 // Load img blob to input
@@ -48,7 +48,7 @@
                 let container = new DataTransfer();
                 container.items.add(file);
                 document.querySelector('input[name="image"]').files = container.files;
-                $('#image').attr('src', '{{ asset('/assets/images/'. $story->image) }}').width(200).height(200);
+                $('#image').attr('src', '{{ asset('/assets/images/stories/'. $story->image) }}').width(200).height(200);
             })
         }
         // xmlHTTP return blob respond
