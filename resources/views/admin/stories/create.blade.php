@@ -22,6 +22,14 @@
                     'X-CSRF-TOKEN': '{{csrf_token()}}'
                 }
             });
+
+            $("#authorName").select2({
+                theme: "classic"
+            });
+            $(".alert").fadeTo(2000, 500).slideUp(500, function(){
+                $(".alert").slideUp(500);
+            });
+
             // $('#start-date').datetimepicker();
         });
         function readURL(input) {
@@ -114,17 +122,17 @@
                                         <label>Start Date</label><span class="required" style="color: red;" aria-required="true"> * </span>
                                         <input type="datetime-local" name="start_date" class="form-control" required>
                                     </div>
-{{--                                    <div class="form-group">--}}
-{{--                                        <label>Author</label>--}}
-{{--                                        <div class="row">--}}
-{{--                                            @foreach($authors as $author)--}}
-{{--                                                <div class="checkbox-inline col-12 col-xs-12 col-sm-6 col-lg-4 col-xl-3">--}}
-{{--                                                    <input id="author{{$author->id}}" type="checkbox" value="{{$author->id}}" name="author_id[]">--}}
-{{--                                                    <label for="author{{$author->id}}" style="font-weight: normal">{{$author->name}}</label>--}}
-{{--                                                </div>--}}
-{{--                                            @endforeach--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
+                                    <div class="form-group">
+                                        <label>Author</label>
+                                        <div>
+                                            <select class="form-control" name="author_id" id="authorName" required>
+                                                <option disabled="disabled" selected>Choose option</option>
+                                                @foreach($authors as $author)
+                                                    <option value="{{ $author->id }}">{{ $author->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <label>Categories</label>
                                         <div class="row">

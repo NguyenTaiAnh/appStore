@@ -28,13 +28,17 @@
             }
 
             readURL('{{ $story->image }}')
-            // $('#start-date').datetimepicker();
+
+            $(".alert").fadeTo(2000, 500).slideUp(500, function(){
+                $(".alert").slideUp(500);
+            });
+
 
         });
         //How to set a value to a file input in HTML?
         //https://stackoverflow.com/questions/1696877/how-to-set-a-value-to-a-file-input-in-html/70485949#70485949
         function loadURLToInputFiled(){
-            let url = '{{ asset('/asset/image/') }}'
+            let url = '{{ asset('/assets/images/') }}'
             console.log('{{ $story->image }}' !== '')
             getImgURL(url, (imgBlob)=>{
                 // Load img blob to input
@@ -185,19 +189,17 @@
                                         <label>Start Date</label><span class="required" style="color: red;" aria-required="true"> * </span>
                                         <input type="datetime-local" name="start_date" value="{{ $story->start_date ? $story->start_date : '' }}" class="form-control" required>
                                     </div>
-{{--                                    <div class="form-group">--}}
-{{--                                        <label>Author</label>--}}
-{{--                                        <div class="row">--}}
-{{--                                            @foreach($authors as $author)--}}
-{{--                                                <div class="checkbox-inline col-12 col-xs-12 col-sm-6 col-lg-4 col-xl-3">--}}
-{{--                                                    <input id="author{{$author->id}}" type="checkbox" value="{{$author->id}}" name="author_id[]"--}}
-{{--                                                    {{ in_array($author->id, json_decode($story->author_id)) ? 'checked' : ''  }}--}}
-{{--                                                    >--}}
-{{--                                                    <label for="author{{$author->id}}" style="font-weight: normal">{{$author->name}}</label>--}}
-{{--                                                </div>--}}
-{{--                                            @endforeach--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
+                                    <div class="form-group">
+                                        <label>Author</label>
+                                        <div>
+                                            <select class="form-control" name="author_id" id="authorName" required>
+                                                <option disabled="disabled" selected>Choose option</option>
+                                                @foreach($authors as $author)
+                                                    <option value="{{ $author->id }}" @if(old('active', $author->id) === $story->author_id) selected @endif >{{ $author->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <label>Categories</label>
                                         <div class="row">

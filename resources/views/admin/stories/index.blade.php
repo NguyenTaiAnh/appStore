@@ -24,7 +24,7 @@
                     {data:'name', searchable:true},
                     {data:'another_name', searchable: true},
                     {data:'description', searchable: false},
-                    // {data:'author', searchable: false},
+                    {data:'author', searchable: false},
                     {data:'category', searchable: false},
                     {data:'rate', searchable: false},
                     {data:'status', searchable: false},
@@ -33,6 +33,10 @@
                     {data:'action', searchable:false},
                 ]
             })
+            $(".alert").fadeTo(2000, 500).slideUp(500, function(){
+                $(".alert").slideUp(500);
+            });
+
         });
     </script>
 @stop
@@ -81,7 +85,7 @@
                             <th>Name</th>
                             <th>Another Name</th>
                             <th>Description</th>
-{{--                            <th>Authors</th>--}}
+                            <th>Authors</th>
                             <th>Categories</th>
                             <th>Rate</th>
                             <th>Status</th>

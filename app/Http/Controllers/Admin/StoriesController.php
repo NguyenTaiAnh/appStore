@@ -58,23 +58,23 @@ class StoriesController extends Controller
             ->editColumn('status', function ($story){
                 switch ($story->status){
                     case '0':
-                        return 'new';
+                        return "<span class='text-info'>NEW</span>";
                     case '1':
-                        return 'updated';
+                        return "<span class='text-primary'>UPDATED</span>";
                     case '2':
-                        return 'pending';
+                        return "<span class='text-warning'>PENDING</span>";
                     case '3':
-                        return 'done';
+                        return "<span class='text-success'>DONE</span>";
                     case '4':
-                        return 'drop';
+                        return "<span class='text-secondary'>DROP</span>";
                     default:
-                        return 'error';
+                        return "<span class='text-danger'>ERROR</span>";
                 };
             })
-//            ->editColumn('author',function ($story){
-//                $author = $this->storyRepository->getAuthorById($story->category_id);
-//                return $author;
-//            })
+            ->editColumn('author',function ($story){
+                $author = $this->authorRepository->find($story->author_id);
+                return $author->name;
+            })
             ->editColumn('category',function ($story){
                 $categories = $this->storyRepository->getStoryById($story->category_id);
                 return $categories;
@@ -99,7 +99,7 @@ class StoriesController extends Controller
                     </form>
                 </div>';
             })
-            ->rawColumns(['action','image'])->make(TRUE);
+            ->rawColumns(['action','image','status'])->make(TRUE);
     }
 
     /**
@@ -130,8 +130,6 @@ class StoriesController extends Controller
             $path = public_path() . '/assets/images/';
 
             $data['image'] = $name;
-
-            $data['author_id']=json_encode($data['author_id'], true);
             $data['category_id']=json_encode($data['category_id'], true);
             $this->storyRepository->create($data);
             Session::flash('success_msg', 'Successfully Saved');
@@ -176,23 +174,30 @@ class StoriesController extends Controller
      */
     public function update(StoriesRequest $request, $id)
     {
-//        $story = $this->storyRepository->find($id);
+        $story = $this->storyRepository->find($id);
         $data = $request->all();
+//        dd($data['image']->getClientOriginalName());
+
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $name = time() . '.' . $image->getClientOriginalExtension();
-            // Thư mục upload
-            $path = public_path() . '/assets/images/';
+            if($data['image']->getClientOriginalName() === $story->image){
+                $data['image'] = $story->image;
+                $data['category_id']=json_encode($data['category_id'], true);
+                $this->storyRepository->updateData($id,$data);
+            }else{
+                $image = $request->file('image');
+                $name = time() . '.' . $image->getClientOriginalExtension();
 
-            $data['image'] = $name;
+                $data['image'] = $name;
+                $data['category_id']=json_encode($data['category_id'], true);
+                $this->storyRepository->updateData($id,$data);
 
-            $data['author_id']=json_encode($data['author_id'], true);
-            $data['category_id']=json_encode($data['category_id'], true);
-            $this->storyRepository->updateData($id,$data);
+                // Thư mục upload
+                $path = public_path() . '/assets/images/';
+                // Bắt đầu chuyển file vào thư mục
+                $image->move($path, $name);
+            }
             Session::flash('success_msg', 'Successfully Saved');
 
-            // Bắt đầu chuyển file vào thư mục
-            $image->move($path, $name);
 
         }
         return back();
@@ -223,7 +228,6 @@ class StoriesController extends Controller
             File::delete($path);
             $story->image = null;
             $story->save();
-            session()->flash('success_msg', 'Delete image successfully');
         }
     }
 }
