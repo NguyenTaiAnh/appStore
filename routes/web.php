@@ -65,4 +65,15 @@ Route::middleware([AdminAuth::class])->group(function () {
         Route::get('/show/{id}', [StoriesController::class,'show'])->name('stories.show');
         Route::get('/deleteImage/{id}',[StoriesController::class,'delImage'])->name('stories.delete.image');
     });
+
+    Route::group(['prefix'=> 'admin/chapters'], function (){
+        Route::get('/', [ChaptersController::class,'index'])->name('chapters.index');
+        Route::get('/dataTable',[ChaptersController::class,'datatable'])->name('chapters.dataTable');
+        Route::get('/create',[ChaptersController::class,'create'])->name('chapters.create');
+        Route::post('/store', [ChaptersController::class,'store'])->name('chapters.store');
+        Route::get('/edit/{id}', [ChaptersController::class,'edit'])->name('chapters.edit');
+        Route::post('/update/{id}', [ChaptersController::class,'update'])->name('chapters.update');
+        Route::post('/destroy/{id}', [ChaptersController::class,'destroy'])->name('chapters.destroy');
+        Route::get('/show/{id}', [ChaptersController::class,'show'])->name('chapters.show');
+    });
 });

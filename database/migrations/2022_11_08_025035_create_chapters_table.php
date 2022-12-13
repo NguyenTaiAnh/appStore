@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('chapters', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->string('content')->nullable();
+            $table->longText('content')->nullable();
             $table->integer('story_id')->unsigned();
             $table->integer('comment_id')->nullable();
             $table->timestamps();

@@ -13,7 +13,7 @@ class ChaptersRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class ChaptersRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'story_id' => 'required',
+            'name' =>'required',
+            'content'=> 'required',
         ];
     }
 }

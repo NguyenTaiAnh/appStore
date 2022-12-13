@@ -112,6 +112,31 @@
                     </li>
                 </ul>
             </li>
+
+            <li class="nav-item {{$current_route=='chapters.index'?'menu-open':''}}" >
+                <a href="#" class="nav-link {{$current_route=='chapters.index'?'active':''}}">
+                    <i class="nav-icon fas fa-file-alt"></i>
+                    <p>
+                        Chapters Management
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{route('chapters.index')}}" class="nav-link {{$current_route=='chapters.index'?'active':''}}">
+                            <i class="far fa-circle"></i>
+                            <p>Chapters</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('chapters.create')}}" class="nav-link {{$current_route=='chapters.create'?'active':''}}">
+                            <i class="far fa-circle"></i>
+                            <p>Create Chapter</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

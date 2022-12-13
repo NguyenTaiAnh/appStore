@@ -26,7 +26,7 @@ class EloquentStoryRepository extends EloquentBaseRepository implements StoryRep
     public function updateData($id, $data)
     {
         // TODO: Implement updateData() method.
-        $author = $this->model->find($id);
-        return $author ? $author->update($data) : FALSE;
+        $story = $this->model->find($id);
+        return $story ? $story->update($data) : FALSE;
     }
 }

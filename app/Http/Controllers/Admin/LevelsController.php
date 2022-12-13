@@ -34,11 +34,11 @@ class LevelsController extends Controller
     public function datatable(Request $request){
         $level = $this->levelRepository->getLevels($request);
         return $this->dataTable->eloquent($level)
-            ->editColumn('created_at', function ($user) {
-                return date('Y-m-d H:i:s', strtotime($user->created_at));
+            ->editColumn('created_at', function ($level) {
+                return date('Y-m-d H:i:s', strtotime($level->created_at));
             })
-            ->editColumn('updated_at', function ($user) {
-                return date('Y-m-d H:i:s', strtotime($user->updated_at));
+            ->editColumn('updated_at', function ($level) {
+                return date('Y-m-d H:i:s', strtotime($level->updated_at));
             })
             ->addColumn('action',function($level){
                 return '<div class="btn-group action">

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\StoriesRequest;
 use App\Models\Author;
 use App\Models\Categories;
-use App\Models\Stories;
 use App\Repositories\AuthorRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\StoryRepository;
@@ -176,7 +175,6 @@ class StoriesController extends Controller
     {
         $story = $this->storyRepository->find($id);
         $data = $request->all();
-//        dd($data['image']->getClientOriginalName());
 
         if ($request->hasFile('image')) {
             if($data['image']->getClientOriginalName() === $story->image){

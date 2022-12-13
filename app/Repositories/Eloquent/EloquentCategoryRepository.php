@@ -14,7 +14,7 @@ class EloquentCategoryRepository extends EloquentBaseRepository implements Categ
     public function updateData($id, $data)
     {
         // TODO: Implement updateData() method.
-        $author = $this->model->find($id);
-        return $author ? $author->update($data) : FALSE;
+        $category = $this->model->find($id);
+        return $category ? $category->update($data) : FALSE;
     }
 }

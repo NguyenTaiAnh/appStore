@@ -14,7 +14,7 @@ class EloquentLevelRepository extends EloquentBaseRepository implements LevelRep
     public function updateData($id, $data)
     {
         // TODO: Implement updateData() method.
-        $author = $this->model->find($id);
-        return $author ? $author->update($data) : FALSE;
+        $level = $this->model->find($id);
+        return $level ? $level->update($data) : FALSE;
     }
 }
