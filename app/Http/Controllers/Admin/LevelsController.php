@@ -80,11 +80,6 @@ class LevelsController extends Controller
     public function update(LevelsRequest $request)
     {
         $level_id = $request->input('level_id');
-        $level = Levels::where('name', $request->name)->first();
-        if($level){
-            session()->flash('error_msg', 'Already exist');
-            return back();
-        }
         if ($this->levelRepository->updateData($level_id, $request->all())) {
             session()->flash('success_msg', 'Update level successfully');
         } else {

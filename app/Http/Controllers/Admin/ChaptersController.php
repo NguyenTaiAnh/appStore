@@ -110,7 +110,9 @@ class ChaptersController extends Controller
      */
     public function edit($id)
     {
-
+        $chapter = $this->chapterRepository->find($id);
+        $stories = $this->storyRepository->getStories()->get();
+        return  view('admin.chapters.edit', compact('stories','chapter'));
     }
 
     /**

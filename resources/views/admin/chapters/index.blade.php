@@ -2,12 +2,12 @@
 @section('extra_css')
 
 <style>
-    .class-name {
-        display: block;
+    .truncate {
+        max-width:800px;
         white-space: nowrap;
-        width: 15em;
         overflow: hidden;
         text-overflow: ellipsis;
+        border-bottom: 0 !important;
     }
 </style>
 @endsection
@@ -17,7 +17,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
     <script>
         $(document).ready(function(){
-            var oTable = $('#category').DataTable({
+            var oTable = $('#chapter').DataTable({
                 processing:true,
                 serverSide:true,
                 pageLength:10,
@@ -36,19 +36,16 @@
                     {data:'created_at', searchable:false},
                     {data:'updated_at', searchable:false},
                     {data:'action', searchable:false},
-                ]
+                ],
+                columnDefs:[{targets:1,className:"truncate"}],
+                createdRow: function(row){
+                    var td = $(row).find(".truncate");
+                    td.attr("title", td.html());}
             })
             $(".alert").fadeTo(2000, 500).slideUp(500, function(){
                 $(".alert").slideUp(500);
             });
-            // $("td").addClass("class-name");
-            $(" td ").each(function(){
-                $(this).addClass("class-name");
-            });
-            // if (content.length > 20) {
-            //     var shortname = content.substring(0, 20) + " ...";
-            //     $('td').replaceWith(shortname);
-            // }
+
         });
     </script>
 @stop
@@ -90,7 +87,7 @@
                     </a>
                 </div>
                 <div class="table-responsive">
-                    <table style="width: 100%;" class="data-table table table-bordered table-hover" id="category">
+                    <table style="width: 100%;" class="data-table table table-bordered table-hover" id="chapter">
                         <thead>
                         <tr>
                             <th>Name</th>

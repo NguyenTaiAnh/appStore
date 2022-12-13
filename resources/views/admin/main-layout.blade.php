@@ -133,6 +133,7 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{asset('admin-assets/dist/js/pages/dashboard.js')}}"></script>
 @yield('extra_js')
+@yield('extra_css')
 @stack('stack_js')
 @stack('stack_css')
 </body>

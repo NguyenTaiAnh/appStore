@@ -1,5 +1,16 @@
 @extends('admin.main-layout')
+@section('extra_css')
 
+    <style>
+        .truncate {
+            max-width:300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            border-bottom: 0 !important;
+        }
+    </style>
+@endsection
 @section('extra_js')
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
@@ -31,7 +42,11 @@
                     {data:'created_at', searchable:false},
                     {data:'updated_at', searchable:false},
                     {data:'action', searchable:false},
-                ]
+                ],
+                columnDefs:[{targets:3,className:"truncate"}],
+                createdRow: function(row){
+                    var td = $(row).find(".truncate");
+                    td.attr("title", td.html());}
             })
             $(".alert").fadeTo(2000, 500).slideUp(500, function(){
                 $(".alert").slideUp(500);
