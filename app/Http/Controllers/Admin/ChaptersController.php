@@ -51,6 +51,9 @@ class ChaptersController extends Controller
                         <a style="margin-right:5px" class="btn btn-primary btn-sm"
                         href="'. route('chapters.edit', $chapter->id).'">'. 'Edit' . '
                         </a>
+                        <a style="margin-right:5px" class="btn btn-success btn-sm"
+                        href="'. route('chapters.show', $chapter->id).'">'. 'View' . '
+                        </a>
                     <form action="' . route('chapters.destroy', ['id' => $chapter->id]) . '"
                     method="POST" onsubmit="return confirm(' . "'" . 'Are You Sure' . "'" . ');"
                     style="display: inline-block;">
@@ -99,7 +102,9 @@ class ChaptersController extends Controller
      */
     public function show($id)
     {
-        //
+        $chapter = $this->chapterRepository->find($id);
+        $stories = $this->storyRepository->getStories()->get();
+        return  view('admin.chapters.view', compact('stories','chapter'));
     }
 
     /**

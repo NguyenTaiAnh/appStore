@@ -13,9 +13,9 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     {{--    <script src="/vendor/plugins/amazeui-datetimepicker/js/amazeui.datetimepicker.min.js"></script>--}}
     <script>
-        // $(document).ready(function(){
-        //     CKEDITOR.replace( 'bonus-title-ckeditor');
-        // });
+        $(document).ready(function(){
+            CKEDITOR.replace( 'edit_description_ckeditor');
+        });
         $( document ).ready(function() {
             $.ajaxSetup({
                 headers: {
@@ -216,7 +216,7 @@
                                     <div class="form-group">
                                         <label>Description</label>
                                         <div class="form-group">
-                                            <textarea type="text" class="form-control" name="description" required >{{ $story->description? $story->description : '' }}</textarea>
+                                            <textarea type="text" class="form-control" name="description" id="edit_description_ckeditor" required >{{ $story->description? $story->description : '' }}</textarea>
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-sm btn-primary">Save</button>

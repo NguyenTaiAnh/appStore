@@ -89,6 +89,9 @@ class StoriesController extends Controller
                         <a style="margin-right:5px" class="btn btn-primary btn-sm"
                         href="'. route('stories.edit', $story->id).'">'. 'Edit' . '
                         </a>
+                        <a style="margin-right:5px" class="btn btn-success btn-sm"
+                        href="'. route('stories.show', $story->id).'">'. 'View' . '
+                        </a>
                     <form action="' . route('stories.destroy', ['id' => $story->id]) . '"
                     method="POST" onsubmit="return confirm(' . "'" . 'Are You Sure' . "'" . ');"
                     style="display: inline-block;">
@@ -147,7 +150,10 @@ class StoriesController extends Controller
      */
     public function show($id)
     {
-        //
+        $story = $this->storyRepository->find($id);
+        $categories = Categories::all();
+        $authors = Author::all();
+        return view('admin.stories.view', compact('story', 'categories', 'authors'));
     }
 
     /**
