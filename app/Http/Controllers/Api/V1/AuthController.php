@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Api\ApiBaseController;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Str;
+use JWTAuth;
 
 class AuthController extends ApiBaseController
 {
@@ -22,23 +25,24 @@ class AuthController extends ApiBaseController
             'password' => 'required|string',
         ]);
         $credentials = $request->only('email', 'password');
-        $token = Auth::attempt($credentials);
-        if (!$token) {
+        Auth::attempt($credentials);
+        $user = Auth::user();
+        if($user){
+            $token = JWTAuth::fromUser($user);
+            $user->update(
+                [
+                    'access_token' => $token
+                ]
+            );
+        }else{
             return response()->json([
                 'status' => 'error',
                 'message' => 'Unauthorized',
             ], 401);
         }
 
-        $user = Auth::user();
-        return response()->json([
-            'status' => 'success',
-            'user' => $user,
-            'authorisation' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
-        ]);
+        return $this->respondWithSuccessMessageCode($this::SUCCESS_CODE, new UserResource($user));
+
 
     }
 
@@ -46,25 +50,27 @@ class AuthController extends ApiBaseController
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:8',
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'avatar' => asset('assets/avatar/default/avatar_default.png'),
+            'code' => Str::random(10)
         ]);
 
-        $token = Auth::login($user);
-        return response()->json([
-            'status' => 'success',
-            'message' => 'User created successfully',
-            'user' => $user,
-            'authorisation' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
-        ]);
+        $credentials = $request->only('email', 'password');
+        Auth::attempt($credentials);
+        $user = Auth::user();
+        return $this->respondWithSuccessMessageCode($this::SUCCESS_CODE, new UserResource($user));
+
+//        return response()->json([
+//            'status' => 'success',
+//            'message' => 'User created successfully',
+//            'data' => $user,
+//        ]);
     }
 
     public function logout()
@@ -88,4 +94,22 @@ class AuthController extends ApiBaseController
         ]);
     }
 
+    public function profile()
+    {
+        return $this->respondWithSuccessMessageCode($this::SUCCESS_CODE, new UserResource(Auth::user()));
+    }
+
+    public function changePassWord(Request $request) {
+        $request->validate([
+            'old_password' => 'required|string|min:8',
+            'new_password' => 'required|string|min:8',
+        ]);
+        User::where('id', auth()->user()->id)->update(
+            ['password' => bcrypt($request->new_password)]
+        );
+        return $this->respondWithSuccessMessageCode($this::SUCCESS_CODE, new UserResource(auth()->user()));
+
+    }
+
+    //forgot password, change profile, resend mail, change password
 }

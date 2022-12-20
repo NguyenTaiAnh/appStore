@@ -25,12 +25,13 @@ return new class extends Migration
             $table->integer("story_id")->unsigned()->nullable();
             $table->string('register_ip',50)->nullable();
             $table->string('login_ip',50)->nullable();
+            $table->integer('status')->default('0');
             $table->integer('level')->default('0');
             $table->string('code', 10)->nullable();
             $table->string('referent_code', 10)->nullable();
             $table->string('phone_number',20)->nullable();
             $table->integer('verify_otp')->default(0);
-            $table->string('access_token')->nullable();
+            $table->string('access_token',500)->nullable();
             $table->string('banned_reason')->nullable();
             $table->string('time_banned')->nullable();
             $table->boolean('is_banned')->default(false);
