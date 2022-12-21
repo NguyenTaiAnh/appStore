@@ -40,6 +40,9 @@ class ChaptersController extends Controller
     public function datatable(Request $request){
         $chapters = $this->chapterRepository->getChapters();
         return $this->dataTable->eloquent($chapters)
+            ->editColumn('story_id',function ($chapter){
+                return $this->storyRepository->find($chapter->story_id)->name;
+            })
             ->editColumn('created_at', function ($chapter) {
                 return date('Y-m-d H:i:s', strtotime($chapter->created_at));
             })

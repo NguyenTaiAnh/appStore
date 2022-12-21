@@ -31,13 +31,15 @@
                     }
                 },
                 columns: [
+                    {data:'story_id', searchable:true},
                     {data:'name', searchable:true},
                     {data:'content', searchable:true},
                     {data:'created_at', searchable:false},
                     {data:'updated_at', searchable:false},
                     {data:'action', searchable:false},
                 ],
-                columnDefs:[{targets:1,className:"truncate"}],
+                // [0,1,...]
+                columnDefs:[{targets:2,className:"truncate"}],
                 createdRow: function(row){
                     var td = $(row).find(".truncate");
                     td.attr("title", td.html());}
@@ -90,6 +92,7 @@
                     <table style="width: 100%;" class="data-table table table-bordered table-hover" id="chapter">
                         <thead>
                         <tr>
+                            <th>Name Story</th>
                             <th>Name</th>
                             <th>Content</th>
                             <th>Created</th>

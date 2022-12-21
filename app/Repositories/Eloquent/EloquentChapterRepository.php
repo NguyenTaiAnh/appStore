@@ -18,4 +18,15 @@ class EloquentChapterRepository extends EloquentBaseRepository implements Chapte
         $chapter = $this->model->find($id);
         return $chapter ? $chapter->update($data) : FALSE;
     }
+
+    public function getChaptersByFilter($request,$page = false, $limit = false, $count = false){
+        $query = $this->model->query()->select('*');
+        if($count){
+            return $query->count();
+        }
+        if ($page && $limit) {
+            $query = $query->offset(($page - 1) * $limit)->limit($limit);
+        }
+        return $query->get();
+    }
 }

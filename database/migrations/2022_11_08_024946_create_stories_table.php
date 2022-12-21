@@ -24,9 +24,9 @@ return new class extends Migration
             $table->string('comment_id')->nullable();
             $table->integer('rate')->default(0);
             $table->string('status')->nullable();
-            $table->string('vew_follow')->default(0);
-            $table->string('vew_story')->default(0);
-            $table->string('vew_like')->default(0);
+            $table->string('view_follow')->default(0);
+            $table->string('view_story')->default(0);
+            $table->string('view_like')->default(0);
             $table->timestamps();
         });
     }

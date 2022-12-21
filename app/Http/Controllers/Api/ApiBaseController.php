@@ -66,7 +66,7 @@ class ApiBaseController extends BaseController
     const ERR_SEND_EMAIL_VERIFY_MAX_ATTEMPT = 2008;
     const ERR_SEND_EMAIL_TIME_WAITING_SECONDS = 2009;
     const ERR_VERIFIED_EMAIL = 2010;
-    
+
     const SUCCESS_CODE = 200;
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests, ApiResponse;
 
@@ -97,6 +97,6 @@ class ApiBaseController extends BaseController
         }
         \App::setLocale($this->locale);
 
-        $this->middleware('mobile.update');
+        $this->middleware('auth:api');
     }
 }

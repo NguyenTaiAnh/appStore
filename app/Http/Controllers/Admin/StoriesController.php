@@ -75,7 +75,7 @@ class StoriesController extends Controller
                 return $author->name;
             })
             ->editColumn('category',function ($story){
-                $categories = $this->storyRepository->getStoryById($story->category_id);
+                $categories = $this->storyRepository->getCategoryById($story->category_id);
                 return $categories;
             })
             ->editColumn('created_at', function ($story) {

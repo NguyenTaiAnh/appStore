@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\Api\ApiBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\V1\{AuthController, StoriesController};
+use App\Http\Controllers\Api\V1\{AuthController, StoriesController, ChapterController};
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,12 @@ use App\Http\Controllers\Api\V1\{AuthController, StoriesController};
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
+
+
+/**
+ * middleware in file ApiBaseController
+ * should no need declare middleware here
+ */
 Route::group(['prefix'=> '/v1'], function () {
 
     Route::controller(AuthController::class)->group(function () {
@@ -30,7 +37,13 @@ Route::group(['prefix'=> '/v1'], function () {
         Route::get('test','test');
     });
 
-//    Route::group(['middleware' => 'auth'], function () {
-        Route::get('stories',[StoriesController::class, 'index']);
-//    });
+    Route::group(['prefix' => 'stories'], function (){
+        Route::get('',[StoriesController::class, 'index']);
+        Route::get('increase_views',[StoriesController::class,'increaseViews']);
+        Route::get('increase_follow',[StoriesController::class,'increaseFollow']);
+    });
+    Route::group(['prefix' => 'chapters'], function (){
+        Route::get('',[ChapterController::class, 'index']);
+        Route::get('{id}',[ChapterController::class, 'detail']);
+    });
 });

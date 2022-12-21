@@ -203,7 +203,6 @@ trait ApiResponse {
      */
     protected function respondWithPagination($status_code, $paginate, $data, $dataOther = [], $message = ""){
         $message_response = !empty($message) ? $message : ApiMessages::messageSuccessCode($status_code);
-
         $paginator =  [
             'total_count'  => intval($paginate['total_count']),
             'total_pages' => intval($paginate['total_pages']),

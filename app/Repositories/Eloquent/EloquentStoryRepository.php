@@ -13,7 +13,7 @@ class EloquentStoryRepository extends EloquentBaseRepository implements StoryRep
         return $this->model->select('*');
     }
 
-    public function getStoryById($id){
+    public function getCategoryById($id){
         $categories = Categories::whereIn('id',json_decode( $id))->get();
 
         $arrData = [];
@@ -28,5 +28,20 @@ class EloquentStoryRepository extends EloquentBaseRepository implements StoryRep
         // TODO: Implement updateData() method.
         $story = $this->model->find($id);
         return $story ? $story->update($data) : FALSE;
+    }
+
+    public function getStoriesByFilter($request,$page = false, $limit = false, $count = false){
+        $query = $this->model->query()->select('*')
+        ->when($request->name,function ($query) use ($request){
+            $key = $request->name;
+            return $query->where('stories.name',"LIKE", "%{$key}%");
+        });
+        if($count){
+            return $query->count();
+        }
+        if ($page && $limit) {
+        $query = $query->offset(($page - 1) * $limit)->limit($limit);
+    }
+        return $query->get();
     }
 }
