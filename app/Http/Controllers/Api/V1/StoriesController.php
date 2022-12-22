@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Api\ApiBaseController;
 use App\Http\Resources\StoriesResource;
+use App\Http\Resources\UserStoryResource;
 use App\Models\Stories;
 use App\Models\User;
+use App\Models\UserStory;
 use App\Repositories\StoryRepository;
+use App\Repositories\UserStoryRepository;
 use App\Services\PaginatorService;
 use Illuminate\Http\Request;
 
@@ -20,12 +23,17 @@ class StoriesController extends ApiBaseController
      * @var PaginatorService
      */
     private $paginatorService;
+    /**
+     * @var UserStoryRepository
+     */
+    private $userStoryRepository;
 
-    public function __construct(StoryRepository $storyRepository, PaginatorService $paginatorService)
+    public function __construct(StoryRepository $storyRepository, PaginatorService $paginatorService, UserStoryRepository $userStoryRepository)
     {
         $this->middleware('auth:api', ['except' => ['index','increaseViews']]);
         $this->storyRepository = $storyRepository;
         $this->paginatorService = $paginatorService;
+        $this->userStoryRepository = $userStoryRepository;
 
     }
 
@@ -60,19 +68,45 @@ class StoriesController extends ApiBaseController
     }
 
     public function increaseFollow(Request $request){
-//        $id_user = auth()->id();
-//        $id_story = $request->story_id;
-//        if(!$id_story){
-//            return $this->respondWithErrorMessageCode($this::ERR_ITEM_NOT_FOUND, 'Not Found');
-//        }
-//        $story = $this->storyRepository->find($id_story);
-//        if(!$story){
-//            return $this->respondWithErrorMessageCode($this::ERR_ITEM_NOT_FOUND, trans('Not Found'));
-//        }
-//        User::where('id', auth()->user()->id)->update(
-//            ['story_id' => json_encode($id_story, true)]
-//        );
-//        dd(json_decode(auth()->user()->story_id));
-//        $story->update(['view_follow'=> $story->view_follow + 1]);
+        $id_story = $request->story_id;
+        $check = UserStory::where("user_id",auth()->user()->id)->where('story_id', $request->story_id)->first();
+
+        if(!$id_story){
+            return $this->respondWithErrorMessageCode($this::ERR_ITEM_NOT_FOUND, 'Not Found');
+        }
+        $story = $this->storyRepository->find($id_story);
+        if(!$story){
+            return $this->respondWithErrorMessageCode($this::ERR_ITEM_NOT_FOUND, trans('Not Found'));
+        }
+        if (!isset($check)){
+            $add = new UserStory();
+            $add->user_id = auth()->user()->id;
+            $add->story_id = $request['story_id'];
+            $add->save();
+            $story->update(['view_follow'=> $story->view_follow + 1]);
+        }
+        $page = $request->page ?? 1;
+        $limit = $request->limit ?? false;
+        $count = $this->userStoryRepository->getUserStoryById(auth()->user()->id, $page, $limit,true);
+        $userStory = $this->userStoryRepository->getUserStoryById(auth()->user()->id, $page,$limit);
+        $paginator = $this->paginatorService->getCustomPaginator($count, $page, $limit);
+        return $this->respondWithPagination($this::SUCCESS_CODE, $paginator, UserStoryResource::collection($userStory));
+    }
+
+    public function increaseLike(Request $request){
+        $id = $request->story_id;
+        if(!$id){
+            return $this->respondWithErrorMessageCode($this::ERR_ITEM_NOT_FOUND, 'Not Found');
+        }
+        $story = $this->storyRepository->find($id);
+        if(!$story){
+            return $this->respondWithErrorMessageCode($this::ERR_ITEM_NOT_FOUND, trans('Not Found'));
+        }
+        $story->update(['view_like'=> $story->view_like + 1]);
+
+        return response()->json([
+            'message' =>'success',
+            'data' => $story
+        ]);
     }
 }

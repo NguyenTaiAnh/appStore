@@ -3,7 +3,7 @@
 use App\Http\Controllers\Api\ApiBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\V1\{AuthController, StoriesController, ChapterController};
+use App\Http\Controllers\Api\V1\{AuthController, StoriesController, ChapterController, CategoriesController};
 
 /*
 |--------------------------------------------------------------------------
@@ -41,9 +41,13 @@ Route::group(['prefix'=> '/v1'], function () {
         Route::get('',[StoriesController::class, 'index']);
         Route::get('increase_views',[StoriesController::class,'increaseViews']);
         Route::get('increase_follow',[StoriesController::class,'increaseFollow']);
+        Route::get('increase_like',[StoriesController::class,'increaseLike']);
     });
     Route::group(['prefix' => 'chapters'], function (){
         Route::get('',[ChapterController::class, 'index']);
         Route::get('{id}',[ChapterController::class, 'detail']);
+    });
+    Route::group(['prefix'=> 'categories'],function (){
+       Route::get('',[CategoriesController::class,'index']);
     });
 });

@@ -2,11 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Stories;
-use App\Repositories\StoryRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class StoriesResource extends JsonResource
+class UserStoryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,7 +14,8 @@ class StoriesResource extends JsonResource
      */
     public function toArray($request)
     {
-        switch ($this->status){
+        $image = $this->story->image;
+        switch ($this->story->status){
             case '0':
                 $status = 'New';
                 break;
@@ -36,19 +35,16 @@ class StoriesResource extends JsonResource
                 $status ='';
         }
         return [
-            'id' => $this->id,
-            'name'=> $this->name,
-            'description' => $this->description,
-            'image' => asset("/assets/images/stories/$this->image"),
-            'category'=> $this->categoryName($this->category_id),
-            'author' => $this->Author->name,
-            'rate' => $this->rate,
+            'name' => $this->story->name,
+            'image' => asset("/assets/images/stories/$image"),
+            'category'=> $this->story->categoryName($this->story->category_id),
+            'author_id' => $this->story->Author,
+            'rate' => $this->story->rate,
             'status' =>$status,
-            'chapter'=>NameStoryResource::collection($this->Chapters),
-            'view_follow' => $this->view_follow,
-            'view_like' =>$this->view_like,
-            'view_story' =>$this->view_story
-//            'comment_id'=>
+            'chapter'=>NameStoryResource::collection($this->story->Chapters),
+            'view_follow' => $this->story->view_follow,
+            'view_like' =>$this->story->view_like,
+            'view_story' =>$this->story->view_story
         ];
     }
 }

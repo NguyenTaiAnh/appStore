@@ -22,7 +22,6 @@ return new class extends Migration
             $table->integer("role")->nullable()->default(0);
             $table->boolean('is_admin')->default(false);
             $table->string("avatar")->nullable();
-            $table->integer("story_id")->unsigned()->nullable();
             $table->string('register_ip',50)->nullable();
             $table->string('login_ip',50)->nullable();
             $table->integer('status')->default('0');

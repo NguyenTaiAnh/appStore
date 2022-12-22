@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\UserStory;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
@@ -14,6 +15,7 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
+        $userStory = UserStory::where('user_id', $this->id)->count();
         return [
             'token' => $this->access_token,
             'name' => $this->name,
@@ -27,6 +29,7 @@ class UserResource extends JsonResource
             'referent_code' => $this->referent_code,
             'verify_otp' => $this->verify_otp,
             'is_banned' => $this->is_banned,
+            'total_story_follow'=> $userStory
         ];
     }
 }
