@@ -163,7 +163,7 @@
                                     <div class="form-group">
                                         <label>Another name</label>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" value="{{ old('name', $story->another_name ? $story->another_name : '') }}" name="another_name" required>
+                                            <input type="text" class="form-control" value="{{ old('name', $story->another_name ? $story->another_name : '') }}" name="another_name">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -177,7 +177,7 @@
                                     <div class="form-group">
                                         <label>Status</label>
                                         <select class="form-control" name="status" required>
-                                            <option>Select</option>
+                                            <option disabled selected value="">Select</option>
                                             <option value="0" @if(old('active', $story->status) == 0) selected @endif>NEW</option>
                                             <option value="1" @if(old('active', $story->status) == 1) selected @endif>UPDATED</option>
                                             <option value="2" @if(old('active', $story->status) == 2) selected @endif>PENDING</option>
@@ -193,7 +193,7 @@
                                         <label>Author</label>
                                         <div>
                                             <select class="form-control" name="author_id" id="authorName" required>
-                                                <option disabled="disabled" selected>Choose option</option>
+                                                <option disabled selected value="">Choose option</option>
                                                 @foreach($authors as $author)
                                                     <option value="{{ $author->id }}" @if(old('active', $author->id) === $story->author_id) selected @endif >{{ $author->name }}</option>
                                                 @endforeach

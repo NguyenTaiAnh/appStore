@@ -39,13 +39,14 @@ Route::group(['prefix'=> '/v1'], function () {
 
     Route::group(['prefix' => 'stories'], function (){
         Route::get('',[StoriesController::class, 'index']);
+        Route::get('id={id}', [StoriesController::class,'detail']);
         Route::get('increase_views',[StoriesController::class,'increaseViews']);
         Route::get('increase_follow',[StoriesController::class,'increaseFollow']);
         Route::get('increase_like',[StoriesController::class,'increaseLike']);
     });
     Route::group(['prefix' => 'chapters'], function (){
         Route::get('',[ChapterController::class, 'index']);
-        Route::get('{id}',[ChapterController::class, 'detail']);
+        Route::get('id={id}',[ChapterController::class, 'detail']);
     });
     Route::group(['prefix'=> 'categories'],function (){
        Route::get('',[CategoriesController::class,'index']);

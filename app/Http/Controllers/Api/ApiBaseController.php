@@ -68,6 +68,7 @@ class ApiBaseController extends BaseController
     const ERR_VERIFIED_EMAIL = 2010;
 
     const SUCCESS_CODE = 200;
+    const LOGIN_FAILED = 401;
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests, ApiResponse;
 
     protected $locale;

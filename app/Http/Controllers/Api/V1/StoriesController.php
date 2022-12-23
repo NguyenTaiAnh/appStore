@@ -30,7 +30,7 @@ class StoriesController extends ApiBaseController
 
     public function __construct(StoryRepository $storyRepository, PaginatorService $paginatorService, UserStoryRepository $userStoryRepository)
     {
-        $this->middleware('auth:api', ['except' => ['index','increaseViews']]);
+        $this->middleware('auth:api', ['except' => ['index','increaseViews','detail']]);
         $this->storyRepository = $storyRepository;
         $this->paginatorService = $paginatorService;
         $this->userStoryRepository = $userStoryRepository;
@@ -50,21 +50,32 @@ class StoriesController extends ApiBaseController
         }
     }
 
+    public function detail($id){
+        $story = $this->storyRepository->find($id);
+        if($story){
+            return $this->respondWithSuccessMessageCode($this::SUCCESS_CODE,$story );
+        }else{
+            return $this->respondNotFound();
+        }
+    }
+
     public function increaseViews(Request $request){
         $id = $request->story_id;
-        if(!$id){
-            return $this->respondWithErrorMessageCode($this::ERR_ITEM_NOT_FOUND, 'Not Found');
+        $checkReadStory = $request->chapter_id;
+        if($checkReadStory){
+            if(!$id){
+                return $this->respondNotFound();
+            }
+            $story = $this->storyRepository->find($id);
+            if(!$story){
+                return $this->respondNotFound();
+            }
+            $story->update(['view_story'=> $story->view_story + 1]);
+            return $this->respondWithSuccessMessageCode($this::SUCCESS_CODE, new StoriesResource($story));
+        }else{
+            return $this->respondNotFound();
         }
-        $story = $this->storyRepository->find($id);
-        if(!$story){
-            return $this->respondWithErrorMessageCode($this::ERR_ITEM_NOT_FOUND, trans('Not Found'));
-        }
-        $story->update(['view_story'=> $story->view_story + 1]);
 
-        return response()->json([
-            'message' =>'success',
-            'data' => $story
-        ]);
     }
 
     public function increaseFollow(Request $request){
@@ -104,9 +115,6 @@ class StoriesController extends ApiBaseController
         }
         $story->update(['view_like'=> $story->view_like + 1]);
 
-        return response()->json([
-            'message' =>'success',
-            'data' => $story
-        ]);
+        return $this->respondWithSuccessMessageCode($this::SUCCESS_CODE, new StoriesResource($story));
     }
 }

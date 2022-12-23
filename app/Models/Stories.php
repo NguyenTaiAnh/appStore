@@ -49,6 +49,6 @@ class Stories extends Model
         return $this->hasMany(Chapters::class,'story_id');
     }
     public function categoryName( $value ) {
-        return Categories::whereIn('id',json_decode( $value ))->get('name');
+        return Categories::whereIn('id',json_decode( $value ))->get(['id','name']);
     }
 }

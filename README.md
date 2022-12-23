@@ -6,7 +6,8 @@
 - b4: edit DB_HOST=127.0.0.1 to DB_HOST=mysql
 - b5: run terminal in php artisan key:generate
 - b5: run terminal in docker php artisan migrate
-- b6: run terminal in php artisan db:seed --class= ....
+- b6: run terminal in docker php artisan db:seed --class= ....
+- b7: run terminal in docker php artisan jwt:secret
 
 
 

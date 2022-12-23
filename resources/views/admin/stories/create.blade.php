@@ -29,7 +29,16 @@
             $(".alert").fadeTo(2000, 500).slideUp(500, function(){
                 $(".alert").slideUp(500);
             });
-
+            $(function(){
+                var requiredCheckboxes = $(':checkbox[required]');
+                requiredCheckboxes.change(function(){
+                    if(requiredCheckboxes.is(':checked')) {
+                        requiredCheckboxes.removeAttr('required');
+                    } else {
+                        requiredCheckboxes.attr('required', 'required');
+                    }
+                });
+            });
             // $('#start-date').datetimepicker();
         });
         function readURL(input) {
@@ -98,7 +107,7 @@
                                     <div class="form-group">
                                         <label>Another name</label>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="another_name" required>
+                                            <input type="text" class="form-control" name="another_name">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -110,7 +119,7 @@
                                     <div class="form-group">
                                         <label>Status</label>
                                         <select class="form-control" name="status" required>
-                                            <option>Select</option>
+                                            <option disabled selected value="">Select</option>
                                             <option value="0">NEW</option>
                                             <option value="1">UPDATED</option>
                                             <option value="2">PENDING</option>
@@ -126,7 +135,7 @@
                                         <label>Author</label>
                                         <div>
                                             <select class="form-control" name="author_id" id="authorName" required>
-                                                <option disabled="disabled" selected>Choose option</option>
+                                                <option disabled selected value="">Choose option</option>
                                                 @foreach($authors as $author)
                                                     <option value="{{ $author->id }}">{{ $author->name }}</option>
                                                 @endforeach
@@ -138,7 +147,7 @@
                                         <div class="row">
                                             @foreach($categories as $category)
                                                 <div class="checkbox-inline col-12 col-xs-12 col-sm-6 col-lg-4 col-xl-3">
-                                                    <input id="category{{$category->id}}" type="checkbox" value="{{$category->id}}" name="category_id[]">
+                                                    <input id="category{{$category->id}}" type="checkbox" value="{{$category->id}}" name="category_id[]" id="checkCategories" required>
                                                     <label for="category{{$category->id}}" style="font-weight: normal">{{$category->name}}</label><br>
                                                 </div>
                                             @endforeach

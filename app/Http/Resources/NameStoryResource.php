@@ -16,6 +16,7 @@ class NameStoryResource extends JsonResource
     {
 //        dd($this);
         return [
+            'id' => $this->id,
             'name'=> $this->name
         ];
     }

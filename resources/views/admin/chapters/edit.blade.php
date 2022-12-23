@@ -81,7 +81,7 @@
                                         <label>Story</label>
                                         <div>
                                             <select class="form-control" name="story_id" id="storyName" required>
-                                                <option disabled="disabled" selected>Choose option</option>
+                                                <option disabled="disabled" selected value="">Choose option</option>
                                                 @foreach($stories as $story)
                                                     <option value="{{ $story->id }}" @if($story->id === $chapter->story_id) selected @endif>{{ $story->name }}</option>
                                                 @endforeach

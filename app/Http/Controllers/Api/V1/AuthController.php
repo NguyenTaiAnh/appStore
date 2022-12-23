@@ -24,6 +24,10 @@ class AuthController extends ApiBaseController
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
+        $checkEmail = User::where('email', $request->email)->first();
+        if (!$checkEmail){
+            return $this->respondWithError(trans('Email Is Not Registered'),$this::ERR_LOGIN_EMAIL_NOT_EXISTED);
+        }
         $credentials = $request->only('email', 'password');
         Auth::attempt($credentials);
         $user = Auth::user();
@@ -35,10 +39,7 @@ class AuthController extends ApiBaseController
                 ]
             );
         }else{
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Unauthorized',
-            ], 401);
+            return $this->respondWithError(trans('Email or Password is incorrect'),$this::LOGIN_FAILED);
         }
 
         return $this->respondWithSuccessMessageCode($this::SUCCESS_CODE, new UserResource($user));

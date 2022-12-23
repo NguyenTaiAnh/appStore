@@ -25,7 +25,6 @@ class StoriesRequest extends FormRequest
     {
         return [
             'name'=>'required',
-            'another_name'=>'required',
             'image'=>'required',
             'status'=>'required',
             'start_date'=>'required',
