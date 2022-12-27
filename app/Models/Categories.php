@@ -12,8 +12,8 @@ class Categories extends Model
     protected $primaryKey = 'id';
 
     protected $fillable=['name','description'];
-    public function story()
-    {
-        return $this->belongsToMany(Stories::class, 'story_category', 'category_id', 'story_id');//not available story_id
-    }
+//    public function story()
+//    {
+//        return $this->belongsToMany(Stories::class, 'story_category', 'category_id', 'story_id');//not available story_id
+//    }
 }

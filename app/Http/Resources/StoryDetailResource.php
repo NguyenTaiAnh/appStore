@@ -6,7 +6,7 @@ use App\Models\Stories;
 use App\Repositories\StoryRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class StoriesResource extends JsonResource
+class StoryDetailResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -48,7 +48,6 @@ class StoriesResource extends JsonResource
             'view_follow' => $this->view_follow,
             'view_like' =>$this->view_like,
             'view_story' =>$this->view_story
-//            'comment_id'=>
         ];
     }
 }

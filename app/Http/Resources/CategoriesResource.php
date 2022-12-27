@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Stories;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CategoriesResource extends JsonResource
@@ -14,6 +15,11 @@ class CategoriesResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $stories = Stories::where('category_id', 'like', '%' . $this->id . '%')->get(['id','name']);
+        return [
+          'name'=>$this->name,
+          'description' => $this->description,
+          'stories' => $stories
+        ];
     }
 }

@@ -14,6 +14,12 @@ class AuthorResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+
+        return [
+            'id'=>$this->id,
+            'name'=>$this->name,
+            'user_id'=>$this->user_id,
+            'stories'=> !empty($this->story) ? StoryDetailResource::collection($this->story) : []
+        ];
     }
 }

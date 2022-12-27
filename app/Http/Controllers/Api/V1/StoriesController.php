@@ -53,7 +53,7 @@ class StoriesController extends ApiBaseController
     public function detail($id){
         $story = $this->storyRepository->find($id);
         if($story){
-            return $this->respondWithSuccessMessageCode($this::SUCCESS_CODE,$story );
+            return $this->respondWithSuccessMessageCode($this::SUCCESS_CODE, new StoriesResource($story) );
         }else{
             return $this->respondNotFound();
         }
