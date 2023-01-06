@@ -31,7 +31,9 @@ class Stories extends Model
         'view_story',
         'view_like'
     ];
-
+    protected $casts =[
+       'author_id' => 'integer'
+    ];
     public function category()
     {
         return $this->belongsToMany(Categories::class,'story_category','story_id', 'category_id');

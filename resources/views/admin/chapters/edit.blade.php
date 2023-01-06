@@ -39,12 +39,13 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Create Story</h1>
+                    <h1 class="m-0">Edit Chapter {{$chapter->name}}</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Edit Chapters</li>
+                        <li class="breadcrumb-item"><a href="{{route('chapters.index')}}">Chapters</a></li>
+                        <li class="breadcrumb-item active">Edit Chapter</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -78,7 +79,7 @@
                                 <form role="form" method="post" action="{{route('chapters.update', $chapter->id)}}" enctype="multipart/form-data">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                                     <div class="form-group">
-                                        <label>Story</label>
+                                        <label>Chapter</label>
                                         <div>
                                             <select class="form-control" name="story_id" id="storyName" required>
                                                 <option disabled="disabled" selected value="">Choose option</option>

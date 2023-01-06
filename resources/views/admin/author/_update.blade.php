@@ -4,7 +4,7 @@
             <form action="{{route('author.update')}}" method="post" enctype="multipart/form-data">
                 <div class="modal-header">
                     <button type="button" class="close" style="padding: 0; margin: 0" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Update Package</h4>
+                    <h4 class="modal-title" id="myModalLabel">Update Author</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
